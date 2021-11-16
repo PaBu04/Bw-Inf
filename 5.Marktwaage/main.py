@@ -11,7 +11,7 @@ import time
 start = time.time()
 
 #read the weights
-weights = open("gewichtsstuecke.txt", "r")
+weights = open("gewichtsstuecke.txt")
 #get the number of weights
 numberWeights = int(weights.readline())
 
