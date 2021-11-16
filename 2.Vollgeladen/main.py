@@ -15,8 +15,8 @@ totalDistance = int(hotels.readline())
 hotelsList = [[-1, 0]]
 for r in range(numberHotels):
     hotel = hotels.readline()
-    hotelKm = int(hotel.split(" ")[0])
-    hotelRating = float(hotel.split(" ")[1])
+    hotelKm = int(hotel.split()[0])
+    hotelRating = float(hotel.split()[1])
     #select the better rated hotel if their are two or more hotels at the same km
     if(hotelsList[-1][0] == hotelKm):
         if(hotelsList[-1][1] < hotelRating):
