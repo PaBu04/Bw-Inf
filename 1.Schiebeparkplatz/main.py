@@ -5,7 +5,7 @@ Created on 01.11.2021
 '''
 
 #read parking spot
-parkingSpot = open('parkplatz.txt','r')
+parkingSpot = open('parkplatz.txt')
 #get number of normal parking cars
 numberCars = ord(parkingSpot.readline()[2]) - 64
 

@@ -5,7 +5,7 @@ Created on 02.11.2021
 '''
 
 #read the hotel
-hotels = open("hotels.txt", "r")
+hotels = open("hotels.txt")
 #get the number of hotels
 numberHotels = int(hotels.readline())
 #get the total distance to drive
