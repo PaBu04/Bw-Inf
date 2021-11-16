@@ -21,10 +21,10 @@ amounts = []
 for r in range(numberWeights):
     all = weights.readline()
     
-    weight = int(all.split(" ")[0])
+    weight = int(all.split()[0])
     weightsList.append(weight)
     
-    amount = int(all.split(" ")[1])
+    amount = int(all.split()[1])
     amounts.append([r for r in range(amount * -1, amount + 1)])
     calcs *= amount * 2 + 1
     
