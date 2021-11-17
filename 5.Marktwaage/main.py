@@ -25,7 +25,6 @@ for r in range(numberWeights):
     amounts.append([r for r in range(int(amount) * -1, int(amount) + 1)])
     calcs *= int(amount) * 2 + 1
 
-print("Needed Calculations: " + str(int((calcs - 1) / 2)))
 print("Needed Time: " + str(int((calcs - 1) / 2) / 130000) + "s")
 
 #from : https://stackoverflow.com/questions/1208118
