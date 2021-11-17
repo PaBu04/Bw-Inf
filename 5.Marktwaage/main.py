@@ -4,18 +4,14 @@ Created on 03.11.2021
 @author: Paul Buda
 '''
 
-from numpy import array, meshgrid
-from time import time
+from numpy import array, meshgrid, sum
 import numpy
-
-start = time()
 
 #read the weights
 weights = open("gewichtsstuecke.txt", "r")
 #get the number of weights
 numberWeights = int(weights.readline())
 
-calcs = 1
 weightsList = []
 amounts = []
 for r in range(numberWeights):
@@ -24,18 +20,23 @@ for r in range(numberWeights):
     weightsList.append(int(weight))
     
     amounts.append([r * int(weight) for r in range(int(amount) * -1, int(amount) + 1)])
-    calcs *= int(amount) * 2 + 1
 
 #from : https://stackoverflow.com/questions/1208118
 exec("meshgrid = meshgrid(" + str(amounts)[1:-1] + ")")
-combs = array(meshgrid).T.reshape(-1, numberWeights)
-combs = combs[:len(combs) // 2]
-combsSum = list(numpy.sum(combs, axis = 1))
 
-print(time() - start)
-#calculate all possible sums
-possibleWeights = list(zip(combs, [multiplier for multiplier in combsSum if(abs(multiplier) < 11000)]))
-print(time() - start)
+combs = array(meshgrid).T.reshape(-1, numberWeights)
+
+#es muss nur die Hälfe der Kombinationsmöglichkeiten betrachtet werden, da die andere Hälfte genau den negativen Wert ergibt
+combs = combs[:len(combs) // 2]
+
+#berechnet die Summe der jeweiligen Verteilung
+combsSum = sum(combs, axis = 1)
+
+#es werden nuer die Summen unter 11kg berücksictigt
+combsSum = combsSum[abs(combsSum) < 11000]
+
+#erstellt eine Liste mit den Kombinationen und deren Summen
+possibleWeights = list(zip(combs, combsSum))
 
 #sort in ascending order according to the weights and the number of weights required
 possibleWeights.sort(key = lambda w: (abs(w[1]), sum(abs(x) for x in w[0])), reverse = True)
@@ -49,8 +50,8 @@ possibleWeights.append(last)
 
 for r in range(10, 10010, 10):
     mini = min(possibleWeights, key = lambda x:abs(x[1] - r))
+    
     weightsRight = [(str(int(mini[0][r] / weightsList[r])) + "*" + str(weightsList[r]) + "g") for r in range(len(weightsList)) if(mini[0][r] > 0)]
     weightsLeft = [(str(int(abs(mini[0][r] / weightsList[r]))) + "*" + str(weightsList[r]) + "g") for r in range(len(weightsList)) if(mini[0][r] < 0)]
-    print(str(r) + "g -> " + str(mini[1]) + "g\nRechts: " + str(weightsRight)[1:-1].replace("'", "") + "\nLinks: " + str(weightsLeft)[1:-1].replace("'", ""))
     
-print(time() - start)
+    print(str(r) + "g -> " + str(mini[1]) + "g\nRechts: " + str(weightsRight)[1:-1].replace("'", "") + "\nLinks: " + str(weightsLeft)[1:-1].replace("'", ""))
