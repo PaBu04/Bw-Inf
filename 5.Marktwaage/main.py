@@ -5,7 +5,6 @@ Created on 03.11.2021
 '''
 
 from numpy import array, meshgrid, sum
-import numpy
 
 #read the weights
 weights = open("gewichtsstuecke.txt", "r")
