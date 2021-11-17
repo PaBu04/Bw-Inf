@@ -2,7 +2,6 @@
 Created on 03.11.2021
 
 @author: Paul Buda
-
 '''
 
 from numpy import array, meshgrid
