@@ -5,7 +5,7 @@ Created on 01.11.2021
 '''
 
 #read parking spot
-parkingSpot = open('parkplatz.txt')
+parkingSpot = open('parkplatz.txt','r')
 #get number of normal parking cars
 numberCars = ord(parkingSpot.readline()[2]) - 64
 
@@ -33,20 +33,16 @@ for carNumber in range(numberCars):
         continue
     
     #true if the car(s) can make space to the specific direction
-    canRight = True
-    canLeft = True
+    canRight = canLeft = True
     
     #count the number of cars needed to move
-    rightNeeded = 0
-    leftNeeded = 0
+    rightNeeded = leftNeeded = 0
     
     #count how far all cars need to move together
-    rightSteps = 0
-    leftSteps = 0
+    rightSteps = leftSteps = 0
     
     #save the cars and their direction and length to move
-    movedCarsRight = []
-    movedCarsLeft = []
+    movedCarsRight = movedCarsLeft = []
     
     #check if the cars can make space to the right
     while(toRight > 0):
