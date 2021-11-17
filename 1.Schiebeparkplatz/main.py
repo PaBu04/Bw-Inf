@@ -20,12 +20,10 @@ acrossCars.append(numberCars)
 #and get the number of that car
 for carNumber in range(numberCars):
     if(carNumber in acrossCars):
-        toRight = 1
-        toLeft = 2
+        toRight, toLeft = 1, 2
         acrossNumber = acrossCars.index(carNumber)
     elif(carNumber - 1 in acrossCars): 
-        toRight = 2
-        toLeft = 1
+        toRight, toLeft = 2, 1
         acrossNumber = acrossCars.index(carNumber - 1)
     #if no car is in front print the output for that car and continue
     else:
@@ -42,7 +40,8 @@ for carNumber in range(numberCars):
     rightSteps = leftSteps = 0
     
     #save the cars and their direction and length to move
-    movedCarsRight = movedCarsLeft = []
+    movedCarsRight = []
+    movedCarsLeft = []
     
     #check if the cars can make space to the right
     while(toRight > 0):
@@ -70,22 +69,17 @@ for carNumber in range(numberCars):
         acrossNumber -= 1
     
     #check witch way is faster, left or right
-    driveRight = False
     #if the cars can't move right or left, print that the car can't drive out
-    if(not(canRight or canLeft)):
+    if(canRight + canLeft == 0):
         print(chr(carNumber + 65) + ": can't drive out")
         continue
-    elif(canRight and not canLeft):
-        driveRight = True
-    elif(not canRight and canLeft):
-        pass
+    elif(canRight + canLeft == 1):
+        driveRight = canRight
     else:
-        if(rightNeeded < leftNeeded):
-            driveRight = True
-        elif(rightNeeded > leftNeeded):
-            pass
-        elif(rightSteps <= leftSteps):
-            driveRight = True
+        if(rightNeeded != leftNeeded):
+            driveRight = True if(rightNeeded < leftNeeded) else False
+        else:
+            driveRight = True if(rightSteps < leftSteps) else False
     
     #print the fastest way
     if(driveRight):
@@ -97,4 +91,4 @@ for carNumber in range(numberCars):
         print(chr(carNumber + 65) + ": ", end = "")
         for car in movedCarsLeft[:-1]:
             print(chr(car[0] + 64 + numberCars) + " " + str(car[1]) + " left ", end = "")
-        print(chr(movedCarsLeft[-1][0] + 64 + numberCars) + " " + str(movedCarsLeft[-1][1]) + " left ", end = "")
+        print(chr(movedCarsLeft[-1][0] + 64 + numberCars) + " " + str(movedCarsLeft[-1][1]) + " left ")
