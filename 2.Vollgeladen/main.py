@@ -4,28 +4,27 @@ Created on 02.11.2021
 @author: Paul Buda
 '''
 
-#read the hotel
-hotels = open("hotels.txt")
-#get the number of hotels
+#ließt die Datei mit den Infos zu den Hotels ein
+hotels = open("hotels.txt", "r")
+#speichert die Gesamtanzahl an Hotels
 numberHotels = int(hotels.readline())
-#get the total distance to drive
+#speichert die Gesamtreisestrecke
 totalDistance = int(hotels.readline())
 
-#read all hotels and their distance to the start and sort them by their ranting
+#ließt alle Hotels aus der Datei ein
 hotelsList = [[-1, 0]]
 for r in range(numberHotels):
-    hotel = hotels.readline()
-    hotelKm = int(hotel.split()[0])
-    hotelRating = float(hotel.split()[1])
-    #select the better rated hotel if their are two or more hotels at the same km
-    if(hotelsList[-1][0] == hotelKm):
-        if(hotelsList[-1][1] < hotelRating):
-            del hotelsList[-1]
-            hotelsList.append([hotelKm, hotelRating])
+    hotelKm, hotelRating = hotels.readline().split(" ")
+    
+    #wenn am gleiche Reisekilometer mehrere Hotels stehen, wird nur das bestbewertete ausgewählt
+    if(hotelsList[-1][0] == int(hotelKm)):
+        hotelsList[-1][1] = max(float(hotelRating), hotelsList[-1][1])
     else:
-        hotelsList.append([hotelKm, hotelRating])
+        hotelsList.append([int(hotelKm), float(hotelRating)])
+        
 hotels.close()
-hotelsList = sorted(hotelsList, key=lambda x: x[1], reverse=True)
+#sortiert die Hotels nach deren Bewertung
+hotelsList.sort(key=lambda x: x[1], reverse=True)
 
 checkHotels = []
 allCheckHotels = [0, totalDistance]
@@ -35,28 +34,26 @@ for hotel in hotelsList:
     allCheckHotels.sort()
     checkHotels = allCheckHotels.copy()
     minus = 0
+    
     for r in range(len(checkHotels) - 2):
         if(checkHotels[r + 2 - minus] - checkHotels[r - minus] <= 360):
             del checkHotels[r + 1 - minus]
             minus += 1
+            
     for r in range(len(checkHotels) - 1):
         if(checkHotels[r + 1] - checkHotels[r] > 360):
             canUsed = False
             break
-    if(canUsed and len(checkHotels) <= 6):
-        del checkHotels[0]
-        del checkHotels[len(checkHotels) - 1]
-    
-        useHotels = []
-        for hotel in hotelsList:
-            if(hotel[0] in checkHotels):
-                useHotels.append(hotel)
-        useHotels = sorted(useHotels, key=lambda x: x[0])
-        ratings = []
-        for hotel in useHotels:
-            ratings.append(hotel[1])
-            print("Hotel at km: " + str(hotel[0]) + " with the rating of " + str(hotel[1]) + " stars!")
-        break
-    
-print("Lowest Rating: " + str(min(ratings)))
         
+    if(canUsed and len(checkHotels) <= 6):
+        #ließt die Hotels welche benötigt werden mit Km Angabe und Bewertung aus
+        useHotels = [hotel for hotel in hotelsList if(hotel[0] in checkHotels[1:-1])]
+        #sortiert die Hotels nach km
+        useHotels.sort(key=lambda x: x[0])
+        
+        #gibt die Hotels nacheinander aus
+        [print("Das Hotel nach: " + str(hotel[0]) + " km hat eine Bewertung  " + str(hotel[1]) + " Sternen!") for hotel in useHotels]
+        break
+
+#gibt die Sterne, des am schlechtesten bewertete Hotel aus
+print("Das am schlechtesten bewertete Hotel hat: " + str(min(hotel[1] for hotel in useHotels)) + " Sterne")
