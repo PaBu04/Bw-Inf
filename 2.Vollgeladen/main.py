@@ -14,7 +14,7 @@ totalDistance = int(hotels.readline())
 #ließt alle Hotels aus der Datei ein
 hotelsList = [[-1, 0]]
 for r in range(numberHotels):
-    hotelKm, hotelRating = hotels.readline().split(" ")
+    hotelKm, hotelRating = hotels.readline().split()
     
     #wenn am gleiche Reisekilometer mehrere Hotels stehen, wird nur das bestbewertete ausgewählt
     if(hotelsList[-1][0] == int(hotelKm)):
