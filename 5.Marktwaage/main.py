@@ -38,14 +38,14 @@ combsSum = combsSum[abs(combsSum) < 11000]
 possibleWeights = list(zip(combs, combsSum))
 
 #sort in ascending order according to the weights and the number of weights required
-possibleWeights.sort(key = lambda w: (abs(w[1]), sum(abs(x) for x in w[0])), reverse = True)
+possibleWeights.sort(key = lambda w: (abs(w[1]), sum(abs(x) for x in w[0])))
 
 #Reverse the sign if the sum of the weight is negative
 possibleWeights = [([-w if (weight[1] < 0) else w for w in weight[0]], abs(weight[1])) for weight in possibleWeights]
 
-last = possibleWeights[-1]
-possibleWeights = [(possibleWeights[r]) for r in range(len(possibleWeights) - 1) if(possibleWeights[r + 1][1] != possibleWeights[r][1])]
-possibleWeights.append(last)
+first = possibleWeights[1]
+possibleWeights = [(possibleWeights[r + 1]) for r in range(len(possibleWeights) - 1) if(possibleWeights[r + 1][1] != possibleWeights[r][1])]
+possibleWeights.append(first)
 
 for r in range(10, 10010, 10):
     mini = min(possibleWeights, key = lambda x:abs(x[1] - r))
