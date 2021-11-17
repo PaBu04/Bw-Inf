@@ -84,7 +84,7 @@ for carNumber in range(numberCars):
     #print the fastest way
     if(driveRight):
         print(chr(carNumber + 65) + ": ", end = "")
-        [print(chr(car[0] + 64 + numberCars) + " " + str(car[1]), end = " rechts, " if(car != movedCarsRight[-1]) else " rechts\n") for car in movedCarsRight]
+        [print(chr(car[0] + 64 + numberCars) + " " + str(car[1]) + " rechts", end = ", " if(car != movedCarsRight[-1]) else "\n") for car in movedCarsRight]
     else:
         print(chr(carNumber + 65) + ": ", end = "")
-        [print(chr(car[0] + 64 + numberCars) + " " + str(car[1]), end = " links, " if(car != movedCarsLeft[-1]) else " links\n") for car in movedCarsLeft]
+        [print(chr(car[0] + 64 + numberCars) + " " + str(car[1]) + " links", end = ", " if(car != movedCarsLeft[-1]) else "\n") for car in movedCarsLeft]
