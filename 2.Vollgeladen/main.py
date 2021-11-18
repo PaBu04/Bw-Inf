@@ -2,6 +2,7 @@
 Created on 02.11.2021
 
 @author: Paul Buda
+@contact: mailan@paulbuda.de
 '''
 
 #ließt die Datei mit den Infos zu den Hotels ein
@@ -23,11 +24,13 @@ for r in range(numberHotels):
         hotelsList.append([int(hotelKm), float(hotelRating)])
         
 hotels.close()
+
 #sortiert die Hotels nach deren Bewertung
 hotelsList.sort(key=lambda x: x[1], reverse=True)
 
 checkHotels = []
 allCheckHotels = [0, totalDistance]
+#fügt nach und nach immer ein weiteres Hotel hinzu, angefangen beim Bestbewerteten, dann nach der Bwertung absteigend
 for hotel in hotelsList:
     canUsed = True
     allCheckHotels.append(hotel[0])
@@ -35,19 +38,21 @@ for hotel in hotelsList:
     checkHotels = allCheckHotels.copy()
     minus = 0
     
+    #entfernt Hotel wenn das Vorherige und Nächste höchstens 360 km voneinander entfernt sind 
     for r in range(len(checkHotels) - 2):
         if(checkHotels[r + 2 - minus] - checkHotels[r - minus] <= 360):
             del checkHotels[r + 1 - minus]
             minus += 1
             
+    #überprüft, ob alle Hotels höchstens 360km voneinander entfernt sind
     for r in range(len(checkHotels) - 1):
-        if(checkHotels[r + 1] - checkHotels[r] > 360):
-            canUsed = False
-            break
-        
+        canUsed = False if(checkHotels[r + 1] - checkHotels[r] > 360) else canUsed
+    
+    #wenn die bestmögliche Strecke gefunde wurde, wird diese ausgegeben
     if(canUsed and len(checkHotels) <= 6):
         #ließt die Hotels welche benötigt werden mit Km Angabe und Bewertung aus
         useHotels = [hotel for hotel in hotelsList if(hotel[0] in checkHotels[1:-1])]
+        
         #sortiert die Hotels nach km
         useHotels.sort(key=lambda x: x[0])
         
