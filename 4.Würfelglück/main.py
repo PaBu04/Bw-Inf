@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # main.py
 #
 # Copyright 2021 Lorenz Wildberg <lorenz@wild-fisch.de>
