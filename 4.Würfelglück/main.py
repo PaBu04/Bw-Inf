@@ -114,12 +114,10 @@ class Spieler:
                 return
         return
 
-    def get_weiteste_ziehbare_figur(self, felder: int, nicht_im_ziel: bool = True) -> Figur:
+    def get_weiteste_ziehbare_figur(self, felder: int) -> Figur:
         weiteste_figur: Figur = None
         for figur in self.figuren:
             if (weiteste_figur == None or figur.feld > weiteste_figur.feld) and self.darf_vorruecken(figur, felder):
-                if nicht_im_ziel and figur.im_ziel():
-                    continue
                 weiteste_figur = figur
         return weiteste_figur
 
@@ -147,10 +145,8 @@ class Spielfeld:
             # ziehe ganz normal
             else:
                 figur: Figur = self.am_zug.get_weiteste_ziehbare_figur(augenzahl)
-                if figur == None:
-                    figur = self.am_zug.get_weiteste_ziehbare_figur(augenzahl, False)
-                self.vorruecken_mit_schlagen(figur, augenzahl)
-
+                if figur != None:
+                    self.vorruecken_mit_schlagen(figur, augenzahl)
 
             if augenzahl != 6:
                 break
