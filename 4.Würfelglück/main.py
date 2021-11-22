@@ -7,13 +7,13 @@ import sys, random
 
 
 input: list = None
-wiederholungen: int = None
 try:
     input = open(sys.argv[1]).readlines()
 except (IndexError, FileNotFoundError):
     print("Fehler: Argument 1 muss die Datei mit den Würfeln sein")
     exit(1)
 
+wiederholungen: int = None
 try:
     wiederholungen = int(sys.argv[2])
 except (IndexError, ValueError):
@@ -189,6 +189,10 @@ for i in range(wiederholungen):
             if not wuerfel2 <= wuerfel1:
                 spielfeld: Spielfeld = Spielfeld()
                 gewinner_wuerfel: int = spielfeld.simuliere(wuerfel1, wuerfel2)
+                alle_gewinner_wuerfel.append(gewinner_wuerfel)
+                # nochmal, aber diesmal fängt der andere an
+                spielfeld: Spielfeld = Spielfeld()
+                gewinner_wuerfel: int = spielfeld.simuliere(wuerfel2, wuerfel1)
                 alle_gewinner_wuerfel.append(gewinner_wuerfel)
 
 # zähle die Gewinne
